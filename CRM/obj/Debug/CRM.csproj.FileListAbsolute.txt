@@ -1,0 +1,67 @@
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\bin\Debug\CRM.exe.config
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\bin\Debug\CRM.exe
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\bin\Debug\CRM.pdb
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\obj\Debug\App.g.cs
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\obj\Debug\CRM_MarkupCompile.cache
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\obj\Debug\CRM_MarkupCompile.lref
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\obj\Debug\CRM.g.resources
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\obj\Debug\CRM.Properties.Resources.resources
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\obj\Debug\CRM.csproj.GenerateResource.cache
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\obj\Debug\CRM.csproj.CoreCompileInputs.cache
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\obj\Debug\CRM.exe
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\obj\Debug\CRM.pdb
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\bin\Debug\EntityFramework.dll
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\bin\Debug\EntityFramework.xml
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\obj\Debug\CRM_Content.g.cs
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\obj\Debug\CRM.csproj.CopyComplete
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\obj\Debug\CRM.g.cs
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\obj\Debug\CRM.baml
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\obj\Debug\CRM.csprojAssemblyReference.cache
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\bin\Debug\CRM.exe.config
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\bin\Debug\CRM.exe
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\bin\Debug\CRM.pdb
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\bin\Debug\EntityFramework.dll
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\bin\Debug\EntityFramework.xml
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\obj\Debug\CRM.csprojResolveAssemblyReference.cache
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\obj\Debug\CRM.g.cs
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\obj\Debug\App.g.cs
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\obj\Debug\CRM_Content.g.cs
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\obj\Debug\CRM_MarkupCompile.cache
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\obj\Debug\CRM_MarkupCompile.lref
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\obj\Debug\CRM.baml
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\obj\Debug\CRM.g.resources
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\obj\Debug\CRM.Properties.Resources.resources
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\obj\Debug\CRM.csproj.GenerateResource.Cache
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\obj\Debug\CRM.csproj.CoreCompileInputs.cache
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\obj\Debug\CRM.exe
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\obj\Debug\CRM.pdb
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\obj\Debug\AddCounterparty.g.cs
+C:\Users\ElnurOr\Desktop\CRM\CRM\CRM\obj\Debug\AddCounterparty.baml
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\obj\Debug\AddCounterparty.g.cs
+C:\Users\Elnur\Desktop\CRM\CRM\CRM\obj\Debug\AddCounterparty.baml
+D:\COD\C# Projects\CRM\CRM\CRM\bin\Debug\CRM.exe.config
+D:\COD\C# Projects\CRM\CRM\CRM\bin\Debug\CRM.exe
+D:\COD\C# Projects\CRM\CRM\CRM\bin\Debug\CRM.pdb
+D:\COD\C# Projects\CRM\CRM\CRM\bin\Debug\EntityFramework.dll
+D:\COD\C# Projects\CRM\CRM\CRM\bin\Debug\EntityFramework.SqlServer.dll
+D:\COD\C# Projects\CRM\CRM\CRM\bin\Debug\EntityFramework.xml
+D:\COD\C# Projects\CRM\CRM\CRM\bin\Debug\EntityFramework.SqlServer.xml
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\AddCounterparty.g.cs
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.g.cs
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\App.g.cs
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM_Content.g.cs
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM_MarkupCompile.cache
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM_MarkupCompile.lref
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\AddCounterparty.baml
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.baml
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.g.resources
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.Properties.Resources.resources
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.csproj.GenerateResource.cache
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.csproj.CoreCompileInputs.cache
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.csproj.CopyComplete
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.exe
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.pdb
