@@ -15,8 +15,8 @@
             <Button x:Name="BtnAddCounterparty" Content="Yeni" HorizontalAlignment="Left" Margin="250,90,0,0" VerticalAlignment="Top" Width="75" Height="30" Click="BtnAddCounterparty_Click" FontSize="16" Cursor="Hand"/>
             <Label Content="Məsul şəxs üzrə:" HorizontalAlignment="Left" Margin="40,120,0,0" VerticalAlignment="Top" Width="285" FontSize="20"/>
             <TextBox x:Name="TxtResponsiblePerson" HorizontalAlignment="Left" Height="30" Margin="40,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="16" VerticalContentAlignment="Center"/>
-            <Button x:Name="BtnSearch" Content="Axtar" HorizontalAlignment="Left" Margin="250,160,0,0" VerticalAlignment="Top" Width="75" Height="30" FontSize="16" Cursor="Hand" Click="BtnSearch_Click"/>
-            <DataGrid x:Name="DgCounterparties" ItemsSource="{Binding Path=VwCounterparty}" HorizontalAlignment="Left" Margin="40,200,0,115" Width="285" SelectedCellsChanged="DgCounterparties_SelectedCellsChanged">
+            <Button x:Name="BtnSearchCounterparty" Content="Axtar" HorizontalAlignment="Left" Margin="250,160,0,0" VerticalAlignment="Top" Width="75" Height="30" FontSize="16" Cursor="Hand" Click="BtnSearchCounterparty_Click"/>
+            <DataGrid x:Name="DgCounterparties" ItemsSource="{Binding Path=VwCounterparty}" HorizontalAlignment="Left" Margin="40,200,0,115" Width="285" SelectedCellsChanged="DgCounterparties_SelectedCellsChanged" SelectionMode="Single" CanUserReorderColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" Visibility="Hidden"/>
                     <DataGridTextColumn Header="Kontragent:" Binding="{Binding Name}" MinWidth="100" />
@@ -28,16 +28,17 @@
             <Button x:Name="BtnAddComment" Content="Rəy yaz" HorizontalAlignment="Left" Margin="185,0,0,70" Width="140" Height="40" VerticalAlignment="Bottom" FontSize="20" Cursor="Hand"/>
             <Button x:Name="BtnCounterpartyInfo" Content="İnfo / Redaktə et" HorizontalAlignment="Left" Margin="40,0,0,25" Width="285" Height="40" VerticalAlignment="Bottom" FontSize="20" Cursor="Hand"/>
         </Grid>
-        <Grid x:Name="GridTasks" Margin="380,10,10,10" Background="#4C00FF00">
-            <Label Content="X A T I R L A T M A L A R" Margin="50,10,50,0" VerticalAlignment="Top" FontSize="20" HorizontalContentAlignment="Center" FontWeight="Bold"/>
-            <RadioButton GroupName="ReminderInterval" x:Name="RbShowAll" IsChecked="True" Content="Hamısını gör" HorizontalAlignment="Left" Margin="100,125,0,0" VerticalAlignment="Top" FontSize="16" VerticalContentAlignment="Center" Click="RbShowAll_Click"/>
-            <RadioButton GroupName="ReminderInterval" x:Name="RbLastDay" Content="Son 1 gün" HorizontalAlignment="Left" Margin="100,90,0,0" VerticalAlignment="Top" FontSize="16" VerticalContentAlignment="Center" Click="RbLastDay_Click"/>
-            <RadioButton GroupName="ReminderInterval" x:Name="RbLastWeek" Content="Son 1 həftə" HorizontalAlignment="Left" Margin="250,90,0,0" VerticalAlignment="Top" FontSize="16" VerticalContentAlignment="Center" Click="RbLastWeek_Click"/>
-            <Label Content="Başlanğıc tarix:" Margin="0,85,250,0" VerticalAlignment="Top" FontSize="16" HorizontalAlignment="Right" Width="150"/>
-            <DatePicker x:Name="DpReminderDate" SelectedDate="{x:Static sys:DateTime.Now}" Margin="0,120,250,0" VerticalAlignment="Top" FontSize="14" VerticalContentAlignment="Center" BorderBrush="Black" HorizontalAlignment="Right" Width="143"/>
-            <CheckBox x:Name="CbShowComments" Content="Rəyləri gör" Margin="250,125,0,0" VerticalAlignment="Top" FontSize="16" VerticalContentAlignment="Center" Checked="CbShowComments_Checked" HorizontalAlignment="Left" Width="96"/>
-            <Label x:Name="LblNoResult" Visibility="Hidden" Content="T A P Ş I R I Q   Y O X D U R" Margin="100,150,0,0" VerticalAlignment="Top" FontSize="16" HorizontalAlignment="Left" Width="250"/>
-            <DataGrid x:Name="DgReminders" ItemsSource="{Binding Path=VwReminder}" Margin="50,200,50,115">
+        <Grid Margin="380,10,10,10" Background="#4C00FF00">
+            <Label Content="X A T I R L A T M A L A R   v ə   R Ə Y L Ə R" Margin="50,10,50,0" VerticalAlignment="Top" FontSize="20" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+            <RadioButton GroupName="ReminderInterval" x:Name="RbLastDay" Content="Son 1 gün" HorizontalAlignment="Left" Margin="50,90,0,0" VerticalAlignment="Top" FontSize="16" VerticalContentAlignment="Center" Click="RbLastDay_Click"/>
+            <RadioButton GroupName="ReminderInterval" x:Name="RbLastWeek" Content="Son 1 həftə" HorizontalAlignment="Left" Margin="200,90,0,0" VerticalAlignment="Top" FontSize="16" VerticalContentAlignment="Center" Click="RbLastWeek_Click"/>
+            <RadioButton GroupName="ReminderInterval" x:Name="RbFullTime" IsChecked="True" Content="Tam dövr" HorizontalAlignment="Left" Margin="350,90,0,0" VerticalAlignment="Top" FontSize="16" VerticalContentAlignment="Center" Click="RbFullTime_Click"/>
+            <CheckBox x:Name="CbShowAll" IsChecked="True" Content="Bütün kontragentləri gör" Margin="50,135,0,0" VerticalAlignment="Top" FontSize="16" VerticalContentAlignment="Center" HorizontalAlignment="Left" Click="CbShowAll_Click"/>
+            <CheckBox x:Name="CbShowComments" Content="Rəyləri gör" Margin="350,135,0,0" VerticalAlignment="Top" FontSize="16" VerticalContentAlignment="Center" HorizontalAlignment="Left" Click="CbShowComments_Click"/>
+            <Label Content="Başlanğıc tarix:" Margin="0,85,200,0" VerticalAlignment="Top" FontSize="16" HorizontalAlignment="Right"/>
+            <DatePicker x:Name="DpReminderDate" SelectedDate="{x:Static sys:DateTime.Now}" Margin="0,85,50,0" VerticalAlignment="Top" FontSize="16" VerticalContentAlignment="Center" BorderBrush="Black" HorizontalAlignment="Right" Width="143"/>
+            <Button x:Name="BtnShowReminders" Content="Bax" Margin="0,126,50,0" FontSize="16" Cursor="Hand" Height="30" VerticalAlignment="Top" Click="BtnShowReminders_Click" HorizontalAlignment="Right" Width="143"/>
+            <DataGrid x:Name="DgReminders" ItemsSource="{Binding Path=VwReminder}" Margin="50,200,50,115" SelectionMode="Single" CanUserReorderColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" Visibility="Hidden"/>
                     <DataGridTextColumn Header="Kontragent:" Binding="{Binding Counterparty}" MinWidth="150" />
@@ -48,7 +49,7 @@
                     <DataGridTextColumn Header="Status:" Binding="{Binding Completed}" MinWidth="100" />
                 </DataGrid.Columns>
             </DataGrid>
-            <Button x:Name="BtnShowReminders" Content="Bax" Margin="0,120,100,0" FontSize="16" Cursor="Hand" Height="27" VerticalAlignment="Top" Click="BtnShowReminders_Click" HorizontalAlignment="Right" Width="110"/>
+            <Label x:Name="LblNoResult" Visibility="Hidden" Content="T A P Ş I R I Q   Y O X D U R" Margin="100,200,0,0" VerticalAlignment="Top" FontSize="16" HorizontalAlignment="Left" Width="250"/>
         </Grid>
     </Grid>
 </Window>
