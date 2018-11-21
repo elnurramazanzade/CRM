@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:CRM"
         mc:Ignorable="d"
         Title="CRM" WindowStartupLocation="CenterScreen" MinWidth="1280" MinHeight="720" Width="1280" Height="720">
@@ -20,13 +21,34 @@
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" Visibility="Hidden"/>
                     <DataGridTextColumn Header="Kontragent:" Binding="{Binding Name}" MinWidth="100" />
                     <DataGridTextColumn Header="Məsul şəxs:" Binding="{Binding Person}" MinWidth="100" />
-                    <DataGridTextColumn Header="Vəzifəsi:" Binding="{Binding Position}" MinWidth="80" />
+                    <DataGridTextColumn Header="Vəzifəsi:" Binding="{Binding Position}" MinWidth="75" />
                 </DataGrid.Columns>
             </DataGrid>
             <Button x:Name="BtnAddTask" Content="Xatırlatma" HorizontalAlignment="Left" Margin="40,0,0,70" Width="140" Height="40" VerticalAlignment="Bottom" FontSize="20" Cursor="Hand"/>
             <Button x:Name="BtnAddComment" Content="Rəy yaz" HorizontalAlignment="Left" Margin="185,0,0,70" Width="140" Height="40" VerticalAlignment="Bottom" FontSize="20" Cursor="Hand"/>
             <Button x:Name="BtnCounterpartyInfo" Content="İnfo / Redaktə et" HorizontalAlignment="Left" Margin="40,0,0,25" Width="285" Height="40" VerticalAlignment="Bottom" FontSize="20" Cursor="Hand"/>
         </Grid>
-        <Grid Margin="380,10,10,10" Background="#4C00FF00"/>
+        <Grid x:Name="GridTasks" Margin="380,10,10,10" Background="#4C00FF00">
+            <Label Content="X A T I R L A T M A L A R" Margin="50,10,50,0" VerticalAlignment="Top" FontSize="20" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+            <RadioButton GroupName="ReminderInterval" x:Name="RbShowAll" IsChecked="True" Content="Hamısını gör" HorizontalAlignment="Left" Margin="100,125,0,0" VerticalAlignment="Top" FontSize="16" VerticalContentAlignment="Center" Click="RbShowAll_Click"/>
+            <RadioButton GroupName="ReminderInterval" x:Name="RbLastDay" Content="Son 1 gün" HorizontalAlignment="Left" Margin="100,90,0,0" VerticalAlignment="Top" FontSize="16" VerticalContentAlignment="Center" Click="RbLastDay_Click"/>
+            <RadioButton GroupName="ReminderInterval" x:Name="RbLastWeek" Content="Son 1 həftə" HorizontalAlignment="Left" Margin="250,90,0,0" VerticalAlignment="Top" FontSize="16" VerticalContentAlignment="Center" Click="RbLastWeek_Click"/>
+            <Label Content="Başlanğıc tarix:" Margin="0,85,250,0" VerticalAlignment="Top" FontSize="16" HorizontalAlignment="Right" Width="150"/>
+            <DatePicker x:Name="DpReminderDate" SelectedDate="{x:Static sys:DateTime.Now}" Margin="0,120,250,0" VerticalAlignment="Top" FontSize="14" VerticalContentAlignment="Center" BorderBrush="Black" HorizontalAlignment="Right" Width="143"/>
+            <CheckBox x:Name="CbShowComments" Content="Rəyləri gör" Margin="250,125,0,0" VerticalAlignment="Top" FontSize="16" VerticalContentAlignment="Center" Checked="CbShowComments_Checked" HorizontalAlignment="Left" Width="96"/>
+            <Label x:Name="LblNoResult" Visibility="Hidden" Content="T A P Ş I R I Q   Y O X D U R" Margin="100,150,0,0" VerticalAlignment="Top" FontSize="16" HorizontalAlignment="Left" Width="250"/>
+            <DataGrid x:Name="DgReminders" ItemsSource="{Binding Path=VwReminder}" Margin="50,200,50,115">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Visibility="Hidden"/>
+                    <DataGridTextColumn Header="Kontragent:" Binding="{Binding Counterparty}" MinWidth="150" />
+                    <DataGridTextColumn Header="İşçi:" Binding="{Binding Employee}" MinWidth="100" />
+                    <DataGridTextColumn Header="Mövzu:" Binding="{Binding Text}" MinWidth="215" />
+                    <DataGridTextColumn Header="Xatırlatma tarixi:" Binding="{Binding Date}" MinWidth="100" />
+                    <DataGridTextColumn Header="Son tarix:" Binding="{Binding EndTime}" MinWidth="100" />
+                    <DataGridTextColumn Header="Status:" Binding="{Binding Completed}" MinWidth="100" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button x:Name="BtnShowReminders" Content="Bax" Margin="0,120,100,0" FontSize="16" Cursor="Hand" Height="27" VerticalAlignment="Top" Click="BtnShowReminders_Click" HorizontalAlignment="Right" Width="110"/>
+        </Grid>
     </Grid>
 </Window>

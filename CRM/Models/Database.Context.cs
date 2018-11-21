@@ -25,10 +25,10 @@ namespace CRM.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Comments> Comments { get; set; }
-        public virtual DbSet<Counterparties> Counterparties { get; set; }
-        public virtual DbSet<Employees> Employees { get; set; }
-        public virtual DbSet<Positions> Positions { get; set; }
-        public virtual DbSet<Tasks> Tasks { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<Counterparty> Counterparties { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Position> Positions { get; set; }
+        public virtual DbSet<Reminder> Reminders { get; set; }
     }
 }

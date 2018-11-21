@@ -5,7 +5,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CounterpartyID" Type="int" Nullable="false" />
+    <Property Name="ReminderID" Type="int" Nullable="false" />
     <Property Name="Text" Type="ntext" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
   </EntityType>
@@ -40,7 +40,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
   </EntityType>
-  <EntityType Name="Tasks">
+  <EntityType Name="Reminders">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -52,15 +52,15 @@
     <Property Name="EndTime" Type="datetime" Nullable="false" />
     <Property Name="Completed" Type="bit" Nullable="false" />
   </EntityType>
-  <Association Name="FK_Comments_Counterparties">
-    <End Role="Counterparties" Type="Self.Counterparties" Multiplicity="1" />
+  <Association Name="FK_Comments_Reminders">
+    <End Role="Reminders" Type="Self.Reminders" Multiplicity="1" />
     <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Counterparties">
+      <Principal Role="Reminders">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Comments">
-        <PropertyRef Name="CounterpartyID" />
+        <PropertyRef Name="ReminderID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -88,26 +88,26 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Tasks_Counterparties">
+  <Association Name="FK_Reminders_Counterparties">
     <End Role="Counterparties" Type="Self.Counterparties" Multiplicity="1" />
-    <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+    <End Role="Reminders" Type="Self.Reminders" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Counterparties">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Tasks">
+      <Dependent Role="Reminders">
         <PropertyRef Name="CounterpartyID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Tasks_Employees">
+  <Association Name="FK_Reminders_Employees">
     <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
-    <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+    <End Role="Reminders" Type="Self.Reminders" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employees">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Tasks">
+      <Dependent Role="Reminders">
         <PropertyRef Name="EmployeeID" />
       </Dependent>
     </ReferentialConstraint>
@@ -117,9 +117,9 @@
     <EntitySet Name="Counterparties" EntityType="Self.Counterparties" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Positions" EntityType="Self.Positions" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK_Comments_Counterparties" Association="Self.FK_Comments_Counterparties">
-      <End Role="Counterparties" EntitySet="Counterparties" />
+    <EntitySet Name="Reminders" EntityType="Self.Reminders" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Comments_Reminders" Association="Self.FK_Comments_Reminders">
+      <End Role="Reminders" EntitySet="Reminders" />
       <End Role="Comments" EntitySet="Comments" />
     </AssociationSet>
     <AssociationSet Name="FK_Counterparties_Positions" Association="Self.FK_Counterparties_Positions">
@@ -130,13 +130,13 @@
       <End Role="Positions" EntitySet="Positions" />
       <End Role="Employees" EntitySet="Employees" />
     </AssociationSet>
-    <AssociationSet Name="FK_Tasks_Counterparties" Association="Self.FK_Tasks_Counterparties">
+    <AssociationSet Name="FK_Reminders_Counterparties" Association="Self.FK_Reminders_Counterparties">
       <End Role="Counterparties" EntitySet="Counterparties" />
-      <End Role="Tasks" EntitySet="Tasks" />
+      <End Role="Reminders" EntitySet="Reminders" />
     </AssociationSet>
-    <AssociationSet Name="FK_Tasks_Employees" Association="Self.FK_Tasks_Employees">
+    <AssociationSet Name="FK_Reminders_Employees" Association="Self.FK_Reminders_Employees">
       <End Role="Employees" EntitySet="Employees" />
-      <End Role="Tasks" EntitySet="Tasks" />
+      <End Role="Reminders" EntitySet="Reminders" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

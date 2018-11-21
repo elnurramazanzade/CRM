@@ -65,3 +65,4 @@ D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.csproj.CoreCompileInputs.cache
 D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.csproj.CopyComplete
 D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.exe
 D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.pdb
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.csprojAssemblyReference.cache

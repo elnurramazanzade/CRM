@@ -12,21 +12,24 @@ namespace CRM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Positions
+    public partial class Counterparty
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Positions()
+        public Counterparty()
         {
-            this.Counterparties = new HashSet<Counterparties>();
-            this.Employees = new HashSet<Employees>();
+            this.Reminders = new HashSet<Reminder>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
+        public string ResponsiblePerson { get; set; }
+        public int PositionID { get; set; }
+        public string Phone { get; set; }
+        public string Mobile { get; set; }
+        public string Address { get; set; }
     
+        public virtual Position Position { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Counterparties> Counterparties { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employees> Employees { get; set; }
+        public virtual ICollection<Reminder> Reminders { get; set; }
     }
 }

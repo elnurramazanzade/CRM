@@ -2,17 +2,17 @@
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="CRMModelStoreContainer" CdmEntityContainer="CRMEntities">
     <EntitySetMapping Name="Comments">
-      <EntityTypeMapping TypeName="CRMModel.Comments">
+      <EntityTypeMapping TypeName="CRMModel.Comment">
         <MappingFragment StoreEntitySet="Comments">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="CounterpartyID" ColumnName="CounterpartyID" />
+          <ScalarProperty Name="ReminderID" ColumnName="ReminderID" />
           <ScalarProperty Name="Text" ColumnName="Text" />
           <ScalarProperty Name="Date" ColumnName="Date" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Counterparties">
-      <EntityTypeMapping TypeName="CRMModel.Counterparties">
+      <EntityTypeMapping TypeName="CRMModel.Counterparty">
         <MappingFragment StoreEntitySet="Counterparties">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
@@ -25,7 +25,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Employees">
-      <EntityTypeMapping TypeName="CRMModel.Employees">
+      <EntityTypeMapping TypeName="CRMModel.Employee">
         <MappingFragment StoreEntitySet="Employees">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
@@ -38,16 +38,16 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Positions">
-      <EntityTypeMapping TypeName="CRMModel.Positions">
+      <EntityTypeMapping TypeName="CRMModel.Position">
         <MappingFragment StoreEntitySet="Positions">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Tasks">
-      <EntityTypeMapping TypeName="CRMModel.Tasks">
-        <MappingFragment StoreEntitySet="Tasks">
+    <EntitySetMapping Name="Reminders">
+      <EntityTypeMapping TypeName="CRMModel.Reminder">
+        <MappingFragment StoreEntitySet="Reminders">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="CounterpartyID" ColumnName="CounterpartyID" />
           <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />

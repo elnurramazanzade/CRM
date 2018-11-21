@@ -4,17 +4,17 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="207ec760e23b4ae580c0cde5837d618c" Name="Diagram1">
-        <EntityTypeShape EntityType="CRMModel.Comments" Width="1.5" PointX="5.25" PointY="3" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRMModel.Counterparties" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRMModel.Employees" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRMModel.Positions" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRMModel.Tasks" Width="1.5" PointX="5.25" PointY="6.375" IsExpanded="true" />
-        <AssociationConnector Association="CRMModel.FK_Comments_Counterparties" ManuallyRouted="false" />
+      <Diagram DiagramId="9519a414991b46f880f93aae3919aeb2" Name="Diagram1">
+        <EntityTypeShape EntityType="CRMModel.Comment" Width="1.5" PointX="7.5" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRMModel.Counterparty" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRMModel.Employee" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRMModel.Position" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRMModel.Reminder" Width="1.5" PointX="5.25" PointY="2.875" IsExpanded="true" />
+        <AssociationConnector Association="CRMModel.FK_Comments_Reminders" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_Counterparties_Positions" ManuallyRouted="false" />
-        <AssociationConnector Association="CRMModel.FK_Tasks_Counterparties" ManuallyRouted="false" />
+        <AssociationConnector Association="CRMModel.FK_Reminders_Counterparties" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_Employees_Positions" ManuallyRouted="false" />
-        <AssociationConnector Association="CRMModel.FK_Tasks_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="CRMModel.FK_Reminders_Employees" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

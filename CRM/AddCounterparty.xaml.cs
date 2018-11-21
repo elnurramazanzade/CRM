@@ -34,7 +34,7 @@ namespace CRM
         // Vəzifə siyahısının doldurulması:
         private void FillPositions()
         {
-            foreach (Positions positions in db.Positions.ToList())
+            foreach (Position positions in db.Positions.ToList())
             {
                 CmbPosition.Items.Add(positions.Name);
             }
@@ -76,13 +76,14 @@ namespace CRM
                 MessageBox.Show("Vəzifə seçin");
                 return;
             }
+            LblAttention.Visibility = Visibility.Hidden;
             if (db.Counterparties.Count(c => c.Phone == TxtPhone.Text) > 0)
             {
                 MessageBox.Show("Bu telefon nömrəsi artıq qeyd olunub");
                 TxtPhone.Focus();
                 return;
             }
-            Counterparties counterparty = new Counterparties
+            Counterparty counterparty = new Counterparty
             {
                 Name = TxtCounterpartyName.Text,
                 ResponsiblePerson = TxtResponsiblePerson.Text,

@@ -12,13 +12,13 @@ namespace CRM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Comments
+    public partial class Comment
     {
         public int Id { get; set; }
-        public int CounterpartyID { get; set; }
+        public int ReminderID { get; set; }
         public string Text { get; set; }
         public System.DateTime Date { get; set; }
     
-        public virtual Counterparties Counterparties { get; set; }
+        public virtual Reminder Reminder { get; set; }
     }
 }

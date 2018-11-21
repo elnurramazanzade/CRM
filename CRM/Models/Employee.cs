@@ -12,12 +12,12 @@ namespace CRM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Employees
+    public partial class Employee
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Employees()
+        public Employee()
         {
-            this.Tasks = new HashSet<Tasks>();
+            this.Reminders = new HashSet<Reminder>();
         }
     
         public int Id { get; set; }
@@ -28,8 +28,8 @@ namespace CRM.Models
         public System.DateTime RecruitmentDate { get; set; }
         public Nullable<System.DateTime> DismissalDate { get; set; }
     
-        public virtual Positions Positions { get; set; }
+        public virtual Position Position { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tasks> Tasks { get; set; }
+        public virtual ICollection<Reminder> Reminders { get; set; }
     }
 }
