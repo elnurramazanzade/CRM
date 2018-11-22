@@ -27,20 +27,23 @@ namespace CRM
         // Dəyişənlər:
         CRMEntities db = new CRMEntities();
         
-        private VwCounterparty selectedCounterparty = new VwCounterparty(); // Axtarış nəticəsində tapılmış və seçilmiş kontragent:
-        private Boolean isSelectedCounterparty = false;
+        private VwCounterparty selectedCounterparty = new VwCounterparty();     // Axtarış nəticəsində tapılmış və seçilmiş kontragent:
+        private VwReminder selectedReminder = new VwReminder();                 // Axtarış nəticəsində tapılmış və seçilmiş xatırlatma:
+        private bool isSelectedCounterparty = false;
+        private bool isSelectedReminer = false;
+        private bool showCompleted = false;
 
         public DateTime firstTime = new DateTime();
-        public DateTime lastTime = DateTime.Now;
+        public DateTime lastTime = new DateTime();
         public DateTime currentTime = DateTime.Now;
         
         // Konstruktor:
         public MainWindow()
         {
             InitializeComponent();
-            SetFirstTime();
+            SetTimeInterval();
             DpReminderDate.DisplayDateStart = firstTime;
-            DpReminderDate.DisplayDateEnd = currentTime;
+            DpReminderDate.DisplayDateEnd = lastTime;
             FillDataGridCounterparties();
             SearchReminders();
         }
@@ -49,7 +52,7 @@ namespace CRM
 
         #region Metods
 
-        // Kontragent cədvəlinin axtarış kriteriyalarına uyğun doldurulması:
+        // "Kontragent" cədvəlinin axtarış kriteriyalarına uyğun doldurulması:
         private void FillDataGridCounterparties()
         {
             List<Counterparty> counterparties = db.Counterparties.Where(c =>
@@ -68,20 +71,22 @@ namespace CRM
             }
         }
 
-        // Xatırlatmaların axtarışı:
+        // "Xatırlatma"-ların axtarışı:
         private void SearchReminders()
         {
             if (db.Reminders.Count() == 0)
             {
                 DgReminders.Visibility = Visibility.Hidden;
+                DgComments.Visibility = Visibility.Hidden;
                 LblNoResult.Visibility = Visibility.Visible;
                 return;
             }
 
+            DgReminders.Items.Clear();
             List<Reminder> reminders = db.Reminders.Where(r =>
                                                          (isSelectedCounterparty ? r.CounterpartyID == selectedCounterparty.Id : true) &&
-                                                          r.Date >= firstTime && r.Date <= lastTime).ToList();
-            DgReminders.Items.Clear();
+                                                         (showCompleted ? r.Completed : !r.Completed) &&
+                                                          r.EndTime >= firstTime && r.EndTime <= lastTime).ToList();
             foreach (Reminder reminder in reminders)
             {
                 DgReminders.Items.Add(new VwReminder
@@ -97,20 +102,46 @@ namespace CRM
             }
         }
 
-        //Hesabat tarixinin təyini:
-        private void SetFirstTime()
+        // "Rəy"-lərin göstərilməsi:
+        private void ShowComments()
+        {
+            DgComments.Items.Clear();
+            try
+            {
+                List<Comment> comments = db.Comments.Where(c => (isSelectedReminer ? c.ReminderID == selectedReminder.Id : false)).ToList();
+                foreach (Comment comment in comments)
+                {
+                    DgComments.Items.Add(new VwComment
+                    {
+                        Id = comment.Id,
+                        Date = comment.Date.ToShortTimeString() + " / " + comment.Date.ToShortDateString(),
+                        Text = comment.Text
+                    });
+                }
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        // Hesabat tarixinin təyini:
+        private void SetTimeInterval()
         {
             if (RbFullTime.IsChecked.Value)
             {
                 firstTime = db.Reminders.First().Date;
+                lastTime = db.Reminders.ToList().OrderByDescending(l => l.EndTime).First().EndTime;
             }
             else if (RbLastWeek.IsChecked.Value)
             {
-                firstTime = currentTime.AddDays(-7);
+                firstTime = currentTime;
+                lastTime = currentTime.AddDays(7);
             }
             else if (RbLastDay.IsChecked.Value)
             {
-                firstTime = currentTime.AddDays(-1);
+                firstTime = currentTime;
+                lastTime = currentTime.AddDays(1);
             }
             else
             {
@@ -132,33 +163,40 @@ namespace CRM
             RbLastDay.IsChecked = false;
             RbLastWeek.IsChecked = false;
             CbShowAll.IsChecked = false;
-            CbShowComments.IsChecked = false;
-            SetFirstTime();
+            SetTimeInterval();
             SearchReminders();
+        }
+
+        // Xatırlatma cədvəlindən xatırlatma seçilməsi:
+        private void DgReminders_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            selectedReminder = DgReminders.SelectedItem as VwReminder;
+            isSelectedReminer = true;
+            ShowComments();
         }
 
         // Son bir gün seçilməsi:
         private void RbLastDay_Click(object sender, RoutedEventArgs e)
         {
-            SetFirstTime();
+            SetTimeInterval();
             SearchReminders();
         }
 
         // Son bir həftə seçilməsi:
         private void RbLastWeek_Click(object sender, RoutedEventArgs e)
         {
-            SetFirstTime();
+            SetTimeInterval();
             SearchReminders();
         }
 
         // Tam dövrün seçilməsi:
         private void RbFullTime_Click(object sender, RoutedEventArgs e)
         {
-            SetFirstTime();
+            SetTimeInterval();
             SearchReminders();
         }
 
-        // Bütün Xatırlatmaların göstərilməsi:
+        // Bütün "xatırlatma"-ların göstərilməsi:
         private void CbShowAll_Click(object sender, RoutedEventArgs e)
         {
             if (CbShowAll.IsChecked.Value)
@@ -172,10 +210,36 @@ namespace CRM
             SearchReminders();
         }
 
+        // Tamamlanmış "xatırlatma"-ların göstərilməsi:
+        private void CbShowCompleted_Click(object sender, RoutedEventArgs e)
+        {
+            if (CbShowCompleted.IsChecked.Value)
+            {
+                showCompleted = true;
+            }
+            else
+            {
+                showCompleted = false;
+            }
+            SearchReminders();
+        }
+
         // Rəylərə baxışın aktivləşdirilməsi:
         private void CbShowComments_Click(object sender, RoutedEventArgs e)
         {
-
+            if (CbShowComments.IsChecked.Value)
+            {
+                DgReminders.Height = 170;
+                DgReminders.VerticalAlignment = VerticalAlignment.Top;
+                DgReminders.Margin = new Thickness(50, 200, 50, 0);
+            }
+            else
+            {
+                DgReminders.Height = Double.NaN;
+                DgReminders.VerticalAlignment = VerticalAlignment.Stretch;
+                DgReminders.Margin = new Thickness(50, 200, 50, 75);
+            }
+            ShowComments();
         }
 
         #endregion
@@ -204,11 +268,11 @@ namespace CRM
             RbLastDay.IsChecked = false;
             CbShowAll.IsChecked = true;
             CbShowComments.IsChecked = false;
-            SetFirstTime();
+            SetTimeInterval();
             SearchReminders();
         }
 
         #endregion
-        
+
     }
 }
