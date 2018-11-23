@@ -10,7 +10,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ReminderID" Type="int" Nullable="false" />
+          <Property Name="MissionID" Type="int" Nullable="false" />
           <Property Name="Text" Type="ntext" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
         </EntityType>
@@ -38,14 +38,7 @@
           <Property Name="RecruitmentDate" Type="date" Nullable="false" />
           <Property Name="DismissalDate" Type="date" />
         </EntityType>
-        <EntityType Name="Positions">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Reminders">
+        <EntityType Name="Missions">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -57,15 +50,22 @@
           <Property Name="EndTime" Type="datetime" Nullable="false" />
           <Property Name="Completed" Type="bit" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Comments_Reminders">
-          <End Role="Reminders" Type="Self.Reminders" Multiplicity="1" />
+        <EntityType Name="Positions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Comments_Missions">
+          <End Role="Missions" Type="Self.Missions" Multiplicity="1" />
           <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Reminders">
+            <Principal Role="Missions">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Comments">
-              <PropertyRef Name="ReminderID" />
+              <PropertyRef Name="MissionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -93,26 +93,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Reminders_Counterparties">
+        <Association Name="FK_Missions_Counterparties">
           <End Role="Counterparties" Type="Self.Counterparties" Multiplicity="1" />
-          <End Role="Reminders" Type="Self.Reminders" Multiplicity="*" />
+          <End Role="Missions" Type="Self.Missions" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Counterparties">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Reminders">
+            <Dependent Role="Missions">
               <PropertyRef Name="CounterpartyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Reminders_Employees">
+        <Association Name="FK_Missions_Employees">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
-          <End Role="Reminders" Type="Self.Reminders" Multiplicity="*" />
+          <End Role="Missions" Type="Self.Missions" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employees">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Reminders">
+            <Dependent Role="Missions">
               <PropertyRef Name="EmployeeID" />
             </Dependent>
           </ReferentialConstraint>
@@ -121,10 +121,10 @@
           <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Counterparties" EntityType="Self.Counterparties" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Missions" EntityType="Self.Missions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Positions" EntityType="Self.Positions" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Reminders" EntityType="Self.Reminders" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Comments_Reminders" Association="Self.FK_Comments_Reminders">
-            <End Role="Reminders" EntitySet="Reminders" />
+          <AssociationSet Name="FK_Comments_Missions" Association="Self.FK_Comments_Missions">
+            <End Role="Missions" EntitySet="Missions" />
             <End Role="Comments" EntitySet="Comments" />
           </AssociationSet>
           <AssociationSet Name="FK_Counterparties_Positions" Association="Self.FK_Counterparties_Positions">
@@ -135,13 +135,13 @@
             <End Role="Positions" EntitySet="Positions" />
             <End Role="Employees" EntitySet="Employees" />
           </AssociationSet>
-          <AssociationSet Name="FK_Reminders_Counterparties" Association="Self.FK_Reminders_Counterparties">
+          <AssociationSet Name="FK_Missions_Counterparties" Association="Self.FK_Missions_Counterparties">
             <End Role="Counterparties" EntitySet="Counterparties" />
-            <End Role="Reminders" EntitySet="Reminders" />
+            <End Role="Missions" EntitySet="Missions" />
           </AssociationSet>
-          <AssociationSet Name="FK_Reminders_Employees" Association="Self.FK_Reminders_Employees">
+          <AssociationSet Name="FK_Missions_Employees" Association="Self.FK_Missions_Employees">
             <End Role="Employees" EntitySet="Employees" />
-            <End Role="Reminders" EntitySet="Reminders" />
+            <End Role="Missions" EntitySet="Missions" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -154,10 +154,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ReminderID" Type="Int32" Nullable="false" />
+          <Property Name="MissionID" Type="Int32" Nullable="false" />
           <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Reminder" Relationship="Self.FK_Comments_Reminders" FromRole="Comments" ToRole="Reminders" />
+          <NavigationProperty Name="Mission" Relationship="Self.FK_Comments_Missions" FromRole="Comments" ToRole="Missions" />
         </EntityType>
         <EntityType Name="Counterparty">
           <Key>
@@ -171,7 +171,7 @@
           <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Position" Relationship="Self.FK_Counterparties_Positions" FromRole="Counterparties" ToRole="Positions" />
-          <NavigationProperty Name="Reminders" Relationship="Self.FK_Reminders_Counterparties" FromRole="Counterparties" ToRole="Reminders" />
+          <NavigationProperty Name="Missions" Relationship="Self.FK_Missions_Counterparties" FromRole="Counterparties" ToRole="Missions" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -185,18 +185,9 @@
           <Property Name="RecruitmentDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DismissalDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Position" Relationship="Self.FK_Employees_Positions" FromRole="Employees" ToRole="Positions" />
-          <NavigationProperty Name="Reminders" Relationship="Self.FK_Reminders_Employees" FromRole="Employees" ToRole="Reminders" />
+          <NavigationProperty Name="Missions" Relationship="Self.FK_Missions_Employees" FromRole="Employees" ToRole="Missions" />
         </EntityType>
-        <EntityType Name="Position">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Counterparties" Relationship="Self.FK_Counterparties_Positions" FromRole="Positions" ToRole="Counterparties" />
-          <NavigationProperty Name="Employees" Relationship="Self.FK_Employees_Positions" FromRole="Positions" ToRole="Employees" />
-        </EntityType>
-        <EntityType Name="Reminder">
+        <EntityType Name="Mission">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -207,19 +198,28 @@
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Completed" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Reminders" FromRole="Reminders" ToRole="Comments" />
-          <NavigationProperty Name="Counterparty" Relationship="Self.FK_Reminders_Counterparties" FromRole="Reminders" ToRole="Counterparties" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK_Reminders_Employees" FromRole="Reminders" ToRole="Employees" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Missions" FromRole="Missions" ToRole="Comments" />
+          <NavigationProperty Name="Counterparty" Relationship="Self.FK_Missions_Counterparties" FromRole="Missions" ToRole="Counterparties" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Missions_Employees" FromRole="Missions" ToRole="Employees" />
         </EntityType>
-        <Association Name="FK_Comments_Reminders">
-          <End Role="Reminders" Type="Self.Reminder" Multiplicity="1" />
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Counterparties" Relationship="Self.FK_Counterparties_Positions" FromRole="Positions" ToRole="Counterparties" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Employees_Positions" FromRole="Positions" ToRole="Employees" />
+        </EntityType>
+        <Association Name="FK_Comments_Missions">
+          <End Role="Missions" Type="Self.Mission" Multiplicity="1" />
           <End Role="Comments" Type="Self.Comment" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Reminders">
+            <Principal Role="Missions">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Comments">
-              <PropertyRef Name="ReminderID" />
+              <PropertyRef Name="MissionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -235,14 +235,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Reminders_Counterparties">
+        <Association Name="FK_Missions_Counterparties">
           <End Role="Counterparties" Type="Self.Counterparty" Multiplicity="1" />
-          <End Role="Reminders" Type="Self.Reminder" Multiplicity="*" />
+          <End Role="Missions" Type="Self.Mission" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Counterparties">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Reminders">
+            <Dependent Role="Missions">
               <PropertyRef Name="CounterpartyID" />
             </Dependent>
           </ReferentialConstraint>
@@ -259,14 +259,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Reminders_Employees">
+        <Association Name="FK_Missions_Employees">
           <End Role="Employees" Type="Self.Employee" Multiplicity="1" />
-          <End Role="Reminders" Type="Self.Reminder" Multiplicity="*" />
+          <End Role="Missions" Type="Self.Mission" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employees">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Reminders">
+            <Dependent Role="Missions">
               <PropertyRef Name="EmployeeID" />
             </Dependent>
           </ReferentialConstraint>
@@ -275,27 +275,27 @@
           <EntitySet Name="Comments" EntityType="Self.Comment" />
           <EntitySet Name="Counterparties" EntityType="Self.Counterparty" />
           <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="Missions" EntityType="Self.Mission" />
           <EntitySet Name="Positions" EntityType="Self.Position" />
-          <EntitySet Name="Reminders" EntityType="Self.Reminder" />
-          <AssociationSet Name="FK_Comments_Reminders" Association="Self.FK_Comments_Reminders">
-            <End Role="Reminders" EntitySet="Reminders" />
+          <AssociationSet Name="FK_Comments_Missions" Association="Self.FK_Comments_Missions">
+            <End Role="Missions" EntitySet="Missions" />
             <End Role="Comments" EntitySet="Comments" />
           </AssociationSet>
           <AssociationSet Name="FK_Counterparties_Positions" Association="Self.FK_Counterparties_Positions">
             <End Role="Positions" EntitySet="Positions" />
             <End Role="Counterparties" EntitySet="Counterparties" />
           </AssociationSet>
-          <AssociationSet Name="FK_Reminders_Counterparties" Association="Self.FK_Reminders_Counterparties">
+          <AssociationSet Name="FK_Missions_Counterparties" Association="Self.FK_Missions_Counterparties">
             <End Role="Counterparties" EntitySet="Counterparties" />
-            <End Role="Reminders" EntitySet="Reminders" />
+            <End Role="Missions" EntitySet="Missions" />
           </AssociationSet>
           <AssociationSet Name="FK_Employees_Positions" Association="Self.FK_Employees_Positions">
             <End Role="Positions" EntitySet="Positions" />
             <End Role="Employees" EntitySet="Employees" />
           </AssociationSet>
-          <AssociationSet Name="FK_Reminders_Employees" Association="Self.FK_Reminders_Employees">
+          <AssociationSet Name="FK_Missions_Employees" Association="Self.FK_Missions_Employees">
             <End Role="Employees" EntitySet="Employees" />
-            <End Role="Reminders" EntitySet="Reminders" />
+            <End Role="Missions" EntitySet="Missions" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -308,7 +308,7 @@
             <EntityTypeMapping TypeName="CRMModel.Comment">
               <MappingFragment StoreEntitySet="Comments">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ReminderID" ColumnName="ReminderID" />
+                <ScalarProperty Name="MissionID" ColumnName="MissionID" />
                 <ScalarProperty Name="Text" ColumnName="Text" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
               </MappingFragment>
@@ -340,17 +340,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Positions">
-            <EntityTypeMapping TypeName="CRMModel.Position">
-              <MappingFragment StoreEntitySet="Positions">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Reminders">
-            <EntityTypeMapping TypeName="CRMModel.Reminder">
-              <MappingFragment StoreEntitySet="Reminders">
+          <EntitySetMapping Name="Missions">
+            <EntityTypeMapping TypeName="CRMModel.Mission">
+              <MappingFragment StoreEntitySet="Missions">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CounterpartyID" ColumnName="CounterpartyID" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
@@ -358,6 +350,14 @@
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
                 <ScalarProperty Name="Completed" ColumnName="Completed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="CRMModel.Position">
+              <MappingFragment StoreEntitySet="Positions">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

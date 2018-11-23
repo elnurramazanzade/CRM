@@ -15,21 +15,27 @@ using CRM.Models;
 
 namespace CRM
 {
-	/// <summary>
-	/// Interaction logic for AddCounterparty.xaml
-	/// </summary>
-	public partial class AddCounterparty : Window
-	{
+    /// <summary>
+    /// Interaction logic for CounterpartyInfo.xaml
+    /// </summary>
+    public partial class CounterpartyInfo : Window
+    {
         CRMEntities db = new CRMEntities();
 
         private string phone = "";
         private string mobile = "";
 
-		public AddCounterparty()
-		{
-			InitializeComponent();
+        private MainWindow crmWindow;
+        private Counterparty selectedCounterparty;
+
+        public CounterpartyInfo(MainWindow mainWindow, Counterparty counterparty)
+        {
+            crmWindow = mainWindow;
+            selectedCounterparty = counterparty;
+            InitializeComponent();
             FillPositions();
-		}
+            FillDatas();
+        }
 
         // Vəzifə siyahısının doldurulması:
         private void FillPositions()
@@ -38,10 +44,21 @@ namespace CRM
             {
                 CmbPosition.Items.Add(positions.Name);
             }
+            CmbPosition.SelectedIndex = selectedCounterparty.PositionID - 1;
         }
 
-        // Yeni kontragentin yaddaşda saxlanılması:
-        private void Save_Click(object sender, RoutedEventArgs e)
+        // Məlumatların doldurulması:
+        private void FillDatas()
+        {
+            TxtCounterpartyName.Text = selectedCounterparty.Name;
+            TxtResponsiblePerson.Text = selectedCounterparty.ResponsiblePerson;
+            TxtPhone.Text = selectedCounterparty.Phone;
+            TxtMobile.Text = selectedCounterparty.Mobile;
+            TxtAddress.Text = selectedCounterparty.Address;
+        }
+
+        // Kontragent məlumatlarının yenilənməsi:
+        private void Update_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(TxtCounterpartyName.Text))
             {
@@ -77,48 +94,40 @@ namespace CRM
                 return;
             }
             TxtBlcAttention.Text = "";
-            if (db.Counterparties.Count(c => c.Phone == TxtPhone.Text) > 0)
+            if (db.Counterparties.Count(c => c.Phone == TxtPhone.Text) > 0 && TxtPhone.Text != selectedCounterparty.Phone)
             {
                 TxtBlcAttention.Text = "Bu telefon nömrəsi artıq qeyd olunub";
                 TxtPhone.Focus();
                 return;
             }
-            Counterparty counterparty = new Counterparty
+            if (db.Counterparties.Count(c => c.Mobile == TxtMobile.Text) > 0 && TxtMobile.Text != selectedCounterparty.Mobile)
             {
-                Name = TxtCounterpartyName.Text,
-                ResponsiblePerson = TxtResponsiblePerson.Text,
-                PositionID = CmbPosition.SelectedIndex + 1,
-                Phone = TxtPhone.Text,
-                Mobile = TxtMobile.Text,
-                Address = TxtAddress.Text
-            };
-            db.Counterparties.Add(counterparty);
+                TxtBlcAttention.Text = "Bu telefon nömrəsi artıq qeyd olunub";
+                TxtMobile.Focus();
+                return;
+            }
+            Counterparty counterparty = db.Counterparties.Find(selectedCounterparty.Id);
+            counterparty.Name = TxtCounterpartyName.Text;
+            counterparty.ResponsiblePerson = TxtResponsiblePerson.Text;
+            counterparty.PositionID = CmbPosition.SelectedIndex + 1;
+            counterparty.Phone = TxtPhone.Text;
+            counterparty.Mobile = TxtMobile.Text;
+            counterparty.Address = TxtAddress.Text;
             db.SaveChanges();
-            TxtBlcAttention.Text = "Yeni kontragent yaddaşa yazıldı";
+            TxtBlcAttention.Text = "Kontragent yeniləndi";
+            crmWindow.Refresh();
         }
 
-        // Formun təmizlənməsi:
-        private void Clear_Click(object sender, RoutedEventArgs e)
+        // Kontragentin məlumat bazasından silinməsi:
+        private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            phone = "";
-            mobile = "";
-            TxtCounterpartyName.Text = "";
-            TxtResponsiblePerson.Text = "";
-            CmbPosition.SelectedIndex = -1;
-            TxtPhone.Text = "";
-            TxtMobile.Text = "";
-            TxtAddress.Text = "";
-            TxtCounterpartyName.BorderBrush = Brushes.DarkCyan;
-            TxtCounterpartyName.BorderThickness = new Thickness(1);
-            TxtResponsiblePerson.BorderBrush = Brushes.DarkCyan;
-            TxtResponsiblePerson.BorderThickness = new Thickness(1);
-            TxtPhone.BorderBrush = Brushes.DarkCyan;
-            TxtPhone.BorderThickness = new Thickness(1);
-            TxtAddress.BorderBrush = Brushes.DarkCyan;
-            TxtAddress.BorderThickness = new Thickness(1);
-            TxtBlcAttention.Text = "";
+            Counterparty counterparty = db.Counterparties.Find(selectedCounterparty.Id);
+            db.Counterparties.Remove(counterparty);
+            db.SaveChanges();
+            TxtBlcAttention.Text = "Kontragent silindi";
+            crmWindow.Refresh();
         }
-
+        
         // Səhf verilən üzrə yoxlanılmış sahələrə fokuslanma:
         #region GotFocus
         private void TxtCounterpartyName_GotFocus(object sender, RoutedEventArgs e)
@@ -192,5 +201,6 @@ namespace CRM
             }
         }
         #endregion
+
     }
 }

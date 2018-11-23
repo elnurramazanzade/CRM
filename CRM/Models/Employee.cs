@@ -17,7 +17,7 @@ namespace CRM.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Employee()
         {
-            this.Reminders = new HashSet<Reminder>();
+            this.Missions = new HashSet<Mission>();
         }
     
         public int Id { get; set; }
@@ -30,6 +30,6 @@ namespace CRM.Models
     
         public virtual Position Position { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Reminder> Reminders { get; set; }
+        public virtual ICollection<Mission> Missions { get; set; }
     }
 }

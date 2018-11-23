@@ -1,4 +1,4 @@
-﻿<Window x:Class="CRM.AddCounterparty"
+﻿<Window x:Class="CRM.CounterpartyInfo"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -21,7 +21,7 @@
         <Label Content="Ünvan:" HorizontalAlignment="Left" Margin="30,300,0,0" VerticalAlignment="Top" FontSize="18"/>
         <TextBox x:Name="TxtAddress" Height="25" Margin="30,335,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="200" FontSize="18" BorderBrush="DarkCyan" GotFocus="TxtAddress_GotFocus" VerticalContentAlignment="Center"/>
         <TextBlock x:Name="TxtBlcAttention" Margin="30,360,30,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" Foreground="Red" Height="43"/>
-        <Button x:Name="Save" Content="Yadda saxla" HorizontalAlignment="Left" Margin="30,400,0,0" VerticalAlignment="Top" Width="95" Height="35" FontSize="16" Cursor="Hand" Click="Save_Click"/>
-        <Button x:Name="Clear" Content="Təmizlə" HorizontalAlignment="Left" Margin="135,400,0,0" VerticalAlignment="Top" Width="95" Height="35" FontSize="16" Cursor="Hand" Click="Clear_Click"/>
+        <Button x:Name="Update" Content="Yenilə" HorizontalAlignment="Left" Margin="30,400,0,0" VerticalAlignment="Top" Width="95" Height="35" FontSize="16" Cursor="Hand" Click="Update_Click"/>
+        <Button x:Name="Delete" Content="Sil" HorizontalAlignment="Left" Margin="135,400,0,0" VerticalAlignment="Top" Width="95" Height="35" FontSize="16" Cursor="Hand" Click="Delete_Click"/>
     </Grid>
 </Window>

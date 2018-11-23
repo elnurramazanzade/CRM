@@ -14,7 +14,7 @@ namespace CRM.Models
         public string Position { get; set; }
     }
 
-    class VwReminder
+    class VwMission
     {
         public int Id { get; set; }
         public string Counterparty { get; set; }

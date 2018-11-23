@@ -28,7 +28,7 @@ namespace CRM.Models
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Counterparty> Counterparties { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Mission> Missions { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
-        public virtual DbSet<Reminder> Reminders { get; set; }
     }
 }

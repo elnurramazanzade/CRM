@@ -66,3 +66,5 @@ D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.csproj.CopyComplete
 D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.exe
 D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.pdb
 D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CRM.csprojAssemblyReference.cache
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CounterpartyInfo.g.cs
+D:\COD\C# Projects\CRM\CRM\CRM\obj\Debug\CounterpartyInfo.baml

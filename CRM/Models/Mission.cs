@@ -12,10 +12,10 @@ namespace CRM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Reminder
+    public partial class Mission
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Reminder()
+        public Mission()
         {
             this.Comments = new HashSet<Comment>();
         }

@@ -68,6 +68,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CounterpartyInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CRM.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -78,6 +82,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CounterpartyInfo.xaml.cs">
+      <DependentUpon>CounterpartyInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="CRM.xaml.cs">
       <DependentUpon>CRM.xaml</DependentUpon>
@@ -109,10 +116,10 @@
     <Compile Include="Models\Employee.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Position.cs">
+    <Compile Include="Models\Mission.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Reminder.cs">
+    <Compile Include="Models\Position.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VwModels.cs" />

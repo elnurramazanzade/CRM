@@ -28,9 +28,9 @@ namespace CRM
         CRMEntities db = new CRMEntities();
         
         private VwCounterparty selectedCounterparty = new VwCounterparty();     // Axtarış nəticəsində tapılmış və seçilmiş kontragent:
-        private VwReminder selectedReminder = new VwReminder();                 // Axtarış nəticəsində tapılmış və seçilmiş xatırlatma:
+        private VwMission selectedMission = new VwMission();                 // Axtarış nəticəsində tapılmış və seçilmiş tapşırıq:
         private bool isSelectedCounterparty = false;
-        private bool isSelectedReminer = false;
+        private bool isSelectedMission = false;
         private bool showCompleted = false;
 
         public DateTime firstTime = new DateTime();
@@ -42,17 +42,19 @@ namespace CRM
         {
             InitializeComponent();
             SetTimeInterval();
-            DpReminderDate.DisplayDateStart = firstTime;
-            DpReminderDate.DisplayDateEnd = lastTime;
+            DpMissionDate.DisplayDateStart = firstTime;
+            DpMissionDate.DisplayDateEnd = lastTime;
+            DpMissionEndDate.DisplayDateStart = DateTime.Now.Date;
             FillDataGridCounterparties();
-            SearchReminders();
+            SearchMissions();
+            FillEmployees();
         }
 
         #endregion
 
         #region Metods
 
-        // "Kontragent" cədvəlinin axtarış kriteriyalarına uyğun doldurulması:
+        // Kontragent cədvəlinin axtarış kriteriyalarına uyğun doldurulması:
         private void FillDataGridCounterparties()
         {
             List<Counterparty> counterparties = db.Counterparties.Where(c =>
@@ -69,46 +71,55 @@ namespace CRM
                     Position = counterparty.Position.Name
                 });
             }
+            BtnCounterpartyInfo.IsEnabled = false;
         }
 
-        // "Xatırlatma"-ların axtarışı:
-        private void SearchReminders()
+        // Tapşırıqların axtarışı:
+        private void SearchMissions()
         {
-            if (db.Reminders.Count() == 0)
+            if (db.Missions.Count() == 0)
             {
-                DgReminders.Visibility = Visibility.Hidden;
+                DgMissions.Visibility = Visibility.Hidden;
                 DgComments.Visibility = Visibility.Hidden;
                 LblNoResult.Visibility = Visibility.Visible;
                 return;
             }
 
-            DgReminders.Items.Clear();
-            List<Reminder> reminders = db.Reminders.Where(r =>
-                                                         (isSelectedCounterparty ? r.CounterpartyID == selectedCounterparty.Id : true) &&
-                                                         (showCompleted ? r.Completed : !r.Completed) &&
-                                                          r.EndTime >= firstTime && r.EndTime <= lastTime).ToList();
-            foreach (Reminder reminder in reminders)
+            BtnMarkCompleted.IsEnabled = false;
+            DgMissions.Items.Clear();
+            try
             {
-                DgReminders.Items.Add(new VwReminder
+                List<Mission> missions = db.Missions.Where(m =>
+                                                           (isSelectedCounterparty ? m.CounterpartyID == selectedCounterparty.Id : true) &&
+                                                           (showCompleted ? m.Completed : !m.Completed) &&
+                                                            m.EndTime >= firstTime && m.EndTime <= lastTime).ToList();
+                foreach (Mission mission in missions)
                 {
-                    Id = reminder.Id,
-                    Counterparty = reminder.Counterparty.Name,
-                    Employee = reminder.Employee.Name,
-                    Text = reminder.Text,
-                    Date = reminder.Date.ToShortDateString(),
-                    EndTime = reminder.EndTime.ToShortDateString(),
-                    Completed = reminder.Completed ? "Tamamlanıb" : "İcradadır"
-                });
+                    DgMissions.Items.Add(new VwMission
+                    {
+                        Id = mission.Id,
+                        Counterparty = mission.Counterparty.Name,
+                        Employee = mission.Employee.Name,
+                        Text = mission.Text,
+                        Date = mission.Date.ToShortDateString(),
+                        EndTime = mission.EndTime.ToShortDateString(),
+                        Completed = mission.Completed ? "Tamamlanıb" : "İcradadır"
+                    });
+                }
+            }
+            catch
+            {
+                return;
             }
         }
 
-        // "Rəy"-lərin göstərilməsi:
-        private void ShowComments()
+        // Rəylərin göstərilməsi:
+        private void FillComments()
         {
             DgComments.Items.Clear();
             try
             {
-                List<Comment> comments = db.Comments.Where(c => (isSelectedReminer ? c.ReminderID == selectedReminder.Id : false)).ToList();
+                List<Comment> comments = db.Comments.Where(c => (isSelectedMission ? c.MissionID == selectedMission.Id : false)).ToList();
                 foreach (Comment comment in comments)
                 {
                     DgComments.Items.Add(new VwComment
@@ -128,10 +139,14 @@ namespace CRM
         // Hesabat tarixinin təyini:
         private void SetTimeInterval()
         {
+            if (db.Missions.Count() == 0)
+            {
+                return;
+            }
             if (RbFullTime.IsChecked.Value)
             {
-                firstTime = db.Reminders.First().Date;
-                lastTime = db.Reminders.ToList().OrderByDescending(l => l.EndTime).First().EndTime;
+                firstTime = db.Missions.First().Date;
+                lastTime = db.Missions.ToList().OrderByDescending(l => l.EndTime).First().EndTime;
             }
             else if (RbLastWeek.IsChecked.Value)
             {
@@ -145,10 +160,23 @@ namespace CRM
             }
             else
             {
-                firstTime = DpReminderDate.SelectedDate.Value;
+                firstTime = DpMissionDate.SelectedDate.Value;
                 lastTime = firstTime.AddDays(1);
             }
         }
+
+        // İşçilərin siyahısının doldurulması:
+        private void FillEmployees()
+        {
+            List<Employee> employees = db.Employees.ToList();
+            foreach (Employee employee in employees)
+            {
+                CmbEmployees.Items.Add(employee.Name + " " + employee.Surname);
+            }
+        }
+
+        // Dialoq pəncərələri bağlandığında əsas pəncərənin yenilənməsi üçün:
+        public void Refresh() => FillDataGridCounterparties();
 
         #endregion
 
@@ -159,44 +187,59 @@ namespace CRM
         {
             selectedCounterparty = DgCounterparties.SelectedItem as VwCounterparty;
             isSelectedCounterparty = true;
+            BtnCounterpartyInfo.IsEnabled = true;
             RbFullTime.IsChecked = true;
             RbLastDay.IsChecked = false;
             RbLastWeek.IsChecked = false;
             CbShowAll.IsChecked = false;
             SetTimeInterval();
-            SearchReminders();
+            SearchMissions();
+            LblMissionAttention.Content = "";
         }
 
-        // Xatırlatma cədvəlindən xatırlatma seçilməsi:
-        private void DgReminders_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        // Tapşırıq cədvəlindən tapşırıq seçilməsi:
+        private void DgMissions_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
-            selectedReminder = DgReminders.SelectedItem as VwReminder;
-            isSelectedReminer = true;
-            ShowComments();
+            selectedMission = DgMissions.SelectedItem as VwMission;
+            isSelectedMission = true;
+            FillComments();
+            if (selectedMission == null)
+            {
+                return;
+            }
+            if (db.Missions.Find(selectedMission.Id).Completed)
+            {
+                BtnMarkCompleted.IsEnabled = false;
+            }
+            else
+            {
+                BtnMarkCompleted.IsEnabled = true;
+            }
+            TxtBlcMissionText.Text = selectedMission.Text;
         }
 
         // Son bir gün seçilməsi:
         private void RbLastDay_Click(object sender, RoutedEventArgs e)
         {
             SetTimeInterval();
-            SearchReminders();
+            SearchMissions();
         }
 
         // Son bir həftə seçilməsi:
         private void RbLastWeek_Click(object sender, RoutedEventArgs e)
         {
             SetTimeInterval();
-            SearchReminders();
+            SearchMissions();
         }
 
         // Tam dövrün seçilməsi:
         private void RbFullTime_Click(object sender, RoutedEventArgs e)
         {
             SetTimeInterval();
-            SearchReminders();
+            SearchMissions();
         }
 
-        // Bütün "xatırlatma"-ların göstərilməsi:
+        // Bütün tapşırıqların göstərilməsi:
         private void CbShowAll_Click(object sender, RoutedEventArgs e)
         {
             if (CbShowAll.IsChecked.Value)
@@ -207,10 +250,10 @@ namespace CRM
             {
                 isSelectedCounterparty = true;
             }
-            SearchReminders();
+            SearchMissions();
         }
 
-        // Tamamlanmış "xatırlatma"-ların göstərilməsi:
+        // Tamamlanmış tapşırıqların göstərilməsi:
         private void CbShowCompleted_Click(object sender, RoutedEventArgs e)
         {
             if (CbShowCompleted.IsChecked.Value)
@@ -221,46 +264,58 @@ namespace CRM
             {
                 showCompleted = false;
             }
-            SearchReminders();
+            SearchMissions();
         }
 
         // Rəylərə baxışın aktivləşdirilməsi:
         private void CbShowComments_Click(object sender, RoutedEventArgs e)
         {
+            GrdMission.Visibility = Visibility.Hidden;
+            GrdComment.Visibility = Visibility.Hidden;
             if (CbShowComments.IsChecked.Value)
             {
-                DgReminders.Height = 170;
-                DgReminders.VerticalAlignment = VerticalAlignment.Top;
-                DgReminders.Margin = new Thickness(50, 200, 50, 0);
+                DgMissions.Height = 170;
+                DgMissions.VerticalAlignment = VerticalAlignment.Top;
+                DgMissions.Margin = new Thickness(50, 200, 50, 0);
+                DgComments.Visibility = Visibility.Visible;
             }
             else
             {
-                DgReminders.Height = Double.NaN;
-                DgReminders.VerticalAlignment = VerticalAlignment.Stretch;
-                DgReminders.Margin = new Thickness(50, 200, 50, 75);
+                DgComments.Visibility = Visibility.Hidden;
+                DgMissions.Height = Double.NaN;
+                DgMissions.VerticalAlignment = VerticalAlignment.Stretch;
+                DgMissions.Margin = new Thickness(50, 200, 50, 75);
             }
-            ShowComments();
+            FillComments();
         }
 
         #endregion
 
         #region Buttons
 
-        // Yeni "kontragent" yaratma düyməsi:
+        // Yeni kontragent yaratma düyməsi:
         private void BtnAddCounterparty_Click(object sender, RoutedEventArgs e)
         {
 			AddCounterparty addCounterparty = new AddCounterparty();
 			addCounterparty.ShowDialog();
         }
 
-        // Kriteriyaya uyğun "Kontragent"-lərin axtarış düyməsi:
+        // Kriteriyaya uyğun kontragentlərin axtarış düyməsi:
         private void BtnSearchCounterparty_Click(object sender, RoutedEventArgs e)
         {
             FillDataGridCounterparties();
         }
-        
-        // Tarixə görə "Xatırlatma"-ların axtarış düyməsi:
-        private void BtnShowReminders_Click(object sender, RoutedEventArgs e)
+
+        // Kontragent haqqında məlumat və yenilənməsi:
+        private void BtnCounterpartyInfo_Click(object sender, RoutedEventArgs e)
+        {
+            Counterparty counterparty = db.Counterparties.Find(selectedCounterparty.Id);
+            CounterpartyInfo counterpartyInfo = new CounterpartyInfo(this, counterparty);
+            counterpartyInfo.ShowDialog();
+        }
+
+        // Tarixə görə tapşırıqların axtarış düyməsi:
+        private void BtnShowMissions_Click(object sender, RoutedEventArgs e)
         {
             isSelectedCounterparty = false;
             RbFullTime.IsChecked = false;
@@ -269,7 +324,143 @@ namespace CRM
             CbShowAll.IsChecked = true;
             CbShowComments.IsChecked = false;
             SetTimeInterval();
-            SearchReminders();
+            SearchMissions();
+        }
+
+        // Yeni tapşırıq yazılması:
+        private void BtnAddMission_Click(object sender, RoutedEventArgs e)
+        {
+            CbShowComments.IsChecked = false;
+            GrdComment.Visibility = Visibility.Hidden;
+            DgComments.Visibility = Visibility.Hidden;
+            if (GrdMission.Visibility == Visibility.Hidden)
+            {
+                DgMissions.Height = Double.NaN;
+                DgMissions.VerticalAlignment = VerticalAlignment.Stretch;
+                DgMissions.Margin = new Thickness(50, 200, 50, 280);
+                GrdMission.Visibility = Visibility.Visible;
+
+                if (isSelectedCounterparty)
+                {
+                    LblMissionAttention.Content = "";
+                }
+                else
+                {
+                    LblMissionAttention.Content = "Kontragent seçin.";
+                }
+            }
+            else
+            {
+                GrdMission.Visibility = Visibility.Hidden;
+                DgMissions.Height = Double.NaN;
+                DgMissions.VerticalAlignment = VerticalAlignment.Stretch;
+                DgMissions.Margin = new Thickness(50, 200, 50, 75);
+            }
+        }
+
+        // Tapşırığın göndərilməsi:
+        private void BtnSendMission_Click(object sender, RoutedEventArgs e)
+        {
+            if (CmbEmployees.SelectedIndex == -1)
+            {
+                LblMissionAttention.Content = "İşçi seçin.";
+                return;
+            }
+            if (!isSelectedCounterparty)
+            {
+                LblMissionAttention.Content = "Kontragent seçin.";
+                return;
+            }
+            if (DpMissionEndDate.SelectedDate.Value.Date == DateTime.Now.Date)
+            {
+                LblMissionAttention.Content = "Son tarix seçin.";
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(TxtMissionText.Text))
+            {
+                LblMissionAttention.Content = "Tapşırıq yazın.";
+                return;
+            }
+            LblMissionAttention.Content = "";
+            Mission mission = new Mission
+            {
+                CounterpartyID = selectedCounterparty.Id,
+                EmployeeID = CmbEmployees.SelectedIndex + 1,
+                Text = TxtMissionText.Text,
+                Date = DateTime.Now,
+                EndTime = DpMissionEndDate.SelectedDate.Value,
+                Completed = false
+            };
+            db.Missions.Add(mission);
+            db.SaveChanges();
+            isSelectedCounterparty = false;
+            TxtMissionText.Text = "";
+            DpMissionEndDate.SelectedDate = DateTime.Now;
+            LblMissionAttention.Content = "Tapşırıq yadda saxlanıldı.";
+        }
+
+        // Tapşırığın tamamlanmış kimi qeyd olunması:
+        private void BtnMarkCompleted_Click(object sender, RoutedEventArgs e)
+        {
+            db.Missions.Find(selectedMission.Id).Completed = true;
+            db.SaveChanges();
+            SearchMissions();
+        }
+
+        // Yeni rəy yazılması:
+        private void BtnAddComment_Click(object sender, RoutedEventArgs e)
+        {
+            CbShowComments.IsChecked = false;
+            GrdMission.Visibility = Visibility.Hidden;
+            DgComments.Visibility = Visibility.Hidden;
+            if (GrdComment.Visibility == Visibility.Hidden)
+            {
+                DgMissions.Height = Double.NaN;
+                DgMissions.VerticalAlignment = VerticalAlignment.Stretch;
+                DgMissions.Margin = new Thickness(50, 200, 50, 220);
+                GrdComment.Visibility = Visibility.Visible;
+                if (isSelectedMission)
+                {
+                    TxtBlcMissionText.Text = selectedMission.Text;
+                }
+                else
+                {
+                    TxtBlcMissionText.Text = "Tapşırıq seçin.";
+                }
+            }
+            else
+            {
+                GrdComment.Visibility = Visibility.Hidden;
+                DgMissions.Height = Double.NaN;
+                DgMissions.VerticalAlignment = VerticalAlignment.Stretch;
+                DgMissions.Margin = new Thickness(50, 200, 50, 75);
+            }
+        }
+
+        // Rəyin göndərilməsi:
+        private void BtnSendComment_Click(object sender, RoutedEventArgs e)
+        {
+            if (!isSelectedMission)
+            {
+                TxtBlcMissionText.Text = "Tapşırıq seçin.";
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(TxtCommentText.Text))
+            {
+                LblCommentAttention.Visibility = Visibility.Visible;
+                return;
+            }
+            LblCommentAttention.Visibility = Visibility.Hidden;
+            Comment comment = new Comment
+            {
+                MissionID = selectedMission.Id,
+                Text = TxtCommentText.Text,
+                Date = DateTime.Now
+            };
+            db.Comments.Add(comment);
+            db.SaveChanges();
+            isSelectedMission = false;
+            TxtCommentText.Text = "";
         }
 
         #endregion

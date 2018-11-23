@@ -15,10 +15,10 @@ namespace CRM.Models
     public partial class Comment
     {
         public int Id { get; set; }
-        public int ReminderID { get; set; }
+        public int MissionID { get; set; }
         public string Text { get; set; }
         public System.DateTime Date { get; set; }
     
-        public virtual Reminder Reminder { get; set; }
+        public virtual Mission Mission { get; set; }
     }
 }
