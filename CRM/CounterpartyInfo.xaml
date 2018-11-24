@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CRM"
         mc:Ignorable="d"
-        Title="Yeni kontragent" WindowStartupLocation="CenterScreen" Height="498" Width="270" ResizeMode="NoResize">
+        Title="INFO" WindowStartupLocation="CenterScreen" Height="498" Width="270" ResizeMode="NoResize">
     <Grid Background="LightGreen">
         <Label Content="Kontragent adı:" HorizontalAlignment="Left" Margin="30,10,0,0" VerticalAlignment="Top" FontSize="18"/>
         <TextBox x:Name="TxtCounterpartyName" Height="25" Margin="30,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="200" FontSize="18" BorderBrush="DarkCyan" GotFocus="TxtCounterpartyName_GotFocus" VerticalContentAlignment="Center"/>
@@ -21,7 +21,7 @@
         <Label Content="Ünvan:" HorizontalAlignment="Left" Margin="30,300,0,0" VerticalAlignment="Top" FontSize="18"/>
         <TextBox x:Name="TxtAddress" Height="25" Margin="30,335,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="200" FontSize="18" BorderBrush="DarkCyan" GotFocus="TxtAddress_GotFocus" VerticalContentAlignment="Center"/>
         <TextBlock x:Name="TxtBlcAttention" Margin="30,360,30,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" Foreground="Red" Height="43"/>
-        <Button x:Name="Update" Content="Yenilə" HorizontalAlignment="Left" Margin="30,400,0,0" VerticalAlignment="Top" Width="95" Height="35" FontSize="16" Cursor="Hand" Click="Update_Click"/>
-        <Button x:Name="Delete" Content="Sil" HorizontalAlignment="Left" Margin="135,400,0,0" VerticalAlignment="Top" Width="95" Height="35" FontSize="16" Cursor="Hand" Click="Delete_Click"/>
+        <Button x:Name="BtnUpdate" Content="Yenilə" HorizontalAlignment="Left" Margin="30,400,0,0" VerticalAlignment="Top" Width="95" Height="35" FontSize="16" Cursor="Hand" Click="BtnUpdate_Click"/>
+        <Button x:Name="BtnDelete" Content="Sil" HorizontalAlignment="Left" Margin="135,400,0,0" VerticalAlignment="Top" Width="95" Height="35" FontSize="16" Cursor="Hand" Click="BtnDelete_Click"/>
     </Grid>
 </Window>

@@ -34,9 +34,49 @@ namespace CRM
         // Vəzifə siyahısının doldurulması:
         private void FillPositions()
         {
+            CmbPosition.Items.Clear();
             foreach (Position positions in db.Positions.ToList())
             {
                 CmbPosition.Items.Add(positions.Name);
+            }
+
+        }
+
+        // Yeni vəzifə təyini düyməsi:
+        private void NewPosition_Click(object sender, RoutedEventArgs e)
+        {
+            if (GrdPosition.Visibility == Visibility.Hidden)
+            {
+                GrdPosition.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                GrdPosition.Visibility = Visibility.Hidden;
+            }
+        }
+
+        // Yeni vəzifənin yadda saxlanılması:
+        private void BtnAddNewPosition_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(TxtNewPositionName.Text))
+            {
+                LblNewPositionAttention.Content = "Vəzifənin adını yazın.";
+                return;
+            }
+            if (db.Positions.Count(p => p.Name == TxtNewPositionName.Text) > 0)
+            {
+                LblNewPositionAttention.Content = "Bu vəzifə təyin edilib.";
+            }
+            else
+            {
+                Position position = new Position
+                {
+                    Name = TxtNewPositionName.Text
+                };
+                db.Positions.Add(position);
+                db.SaveChanges();
+                LblNewPositionAttention.Content = "Yeni vəzifə təyin edildi.";
+                FillPositions();
             }
         }
 
@@ -87,7 +127,7 @@ namespace CRM
             {
                 Name = TxtCounterpartyName.Text,
                 ResponsiblePerson = TxtResponsiblePerson.Text,
-                PositionID = CmbPosition.SelectedIndex + 1,
+                PositionID = db.Positions.First(p => p.Name == CmbPosition.SelectedValue.ToString()).Id,
                 Phone = TxtPhone.Text,
                 Mobile = TxtMobile.Text,
                 Address = TxtAddress.Text
@@ -121,6 +161,7 @@ namespace CRM
 
         // Səhf verilən üzrə yoxlanılmış sahələrə fokuslanma:
         #region GotFocus
+
         private void TxtCounterpartyName_GotFocus(object sender, RoutedEventArgs e)
         {
             if (TxtCounterpartyName.BorderBrush == Brushes.Red)
@@ -156,10 +197,17 @@ namespace CRM
                 TxtAddress.BorderThickness = new Thickness(1);
             }
         }
+
+        private void TxtNewPositionName_GotFocus(object sender, RoutedEventArgs e)
+        {
+            LblNewPositionAttention.Content = "";
+        }
+
         #endregion
 
         // Nömrələrin ədəd olaraq daxil edilməsi:
         #region Write phone numbers
+
         private void TxtPhone_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (TxtPhone.Text.Length == 0)
@@ -191,6 +239,8 @@ namespace CRM
                 mobile = TxtMobile.Text;
             }
         }
+
         #endregion
+
     }
 }

@@ -12,7 +12,8 @@
         <Label Content="Məsul şəxs:" HorizontalAlignment="Left" Margin="30,70,0,0" VerticalAlignment="Top" FontSize="18"/>
         <TextBox x:Name="TxtResponsiblePerson" Height="25" Margin="30,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="200" FontSize="18" BorderBrush="DarkCyan" GotFocus="TxtResponsiblePerson_GotFocus" VerticalContentAlignment="Center"/>
         <Label Content="Vəzifəsi:" HorizontalAlignment="Left" Margin="30,130,0,0" VerticalAlignment="Top" FontSize="18"/>
-        <ComboBox x:Name="CmbPosition" HorizontalAlignment="Left" Margin="30,164,0,0" VerticalAlignment="Top" Width="200" FontSize="18" Background="Black" VerticalContentAlignment="Center"/>
+        <ComboBox x:Name="CmbPosition" HorizontalAlignment="Left" Margin="30,164,0,0" VerticalAlignment="Top" Width="160" FontSize="18" Background="Black" VerticalContentAlignment="Center"/>
+        <Button x:Name="NewPosition" Content="+" HorizontalAlignment="Left" Margin="195,164,0,0" VerticalAlignment="Top" Width="35" Height="30" FontSize="24" FontWeight="Bold" Cursor="Hand" VerticalContentAlignment="Center" Padding="1,-5,1,1" UseLayoutRounding="False" Click="NewPosition_Click"/>
         <Label Content="Telefon nömrələri:" HorizontalAlignment="Left" Margin="30,200,0,0" VerticalAlignment="Top" FontSize="18"/>
         <Label Content="1." HorizontalAlignment="Left" Margin="30,230,0,0" VerticalAlignment="Top" FontSize="18"/>
         <TextBox x:Name="TxtPhone" Height="25" Margin="60,235,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="170" FontSize="18" BorderBrush="DarkCyan" GotFocus="TxtPhone_GotFocus" TextChanged="TxtPhone_TextChanged" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
@@ -23,5 +24,10 @@
         <TextBlock x:Name="TxtBlcAttention" Margin="30,360,30,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" Foreground="Red" Height="43"/>
         <Button x:Name="Save" Content="Yadda saxla" HorizontalAlignment="Left" Margin="30,400,0,0" VerticalAlignment="Top" Width="95" Height="35" FontSize="16" Cursor="Hand" Click="Save_Click"/>
         <Button x:Name="Clear" Content="Təmizlə" HorizontalAlignment="Left" Margin="135,400,0,0" VerticalAlignment="Top" Width="95" Height="35" FontSize="16" Cursor="Hand" Click="Clear_Click"/>
+        <Grid x:Name="GrdPosition" Background="LightGreen" Margin="10,199,10,10" Visibility="Hidden">
+            <TextBox x:Name="TxtNewPositionName" Height="30" Margin="20,10,0,0" TextWrapping="Wrap" FontSize="18" BorderBrush="DarkCyan" VerticalAlignment="Top" HorizontalAlignment="Left" Width="200" GotFocus="TxtNewPositionName_GotFocus"/>
+            <Button x:Name="BtnAddNewPosition" Content="Yadda saxla" HorizontalAlignment="Left" Margin="20,45,0,0" VerticalAlignment="Top" Width="200" Height="35" FontSize="16" Cursor="Hand" Click="BtnAddNewPosition_Click"/>
+            <Label x:Name="LblNewPositionAttention" HorizontalAlignment="Left" Margin="20,85,0,0" VerticalAlignment="Top" Width="200" FontSize="14" Foreground="Red"/>
+        </Grid>
     </Grid>
 </Window>

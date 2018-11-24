@@ -84,15 +84,20 @@ namespace CRM
                 LblNoResult.Visibility = Visibility.Visible;
                 return;
             }
+            else
+            {
+                DgMissions.Visibility = Visibility.Visible;
+                LblNoResult.Visibility = Visibility.Hidden;
+            }
 
             BtnMarkCompleted.IsEnabled = false;
             DgMissions.Items.Clear();
             try
             {
                 List<Mission> missions = db.Missions.Where(m =>
-                                                           (isSelectedCounterparty ? m.CounterpartyID == selectedCounterparty.Id : true) &&
-                                                           (showCompleted ? m.Completed : !m.Completed) &&
-                                                            m.EndTime >= firstTime && m.EndTime <= lastTime).ToList();
+                                                          (isSelectedCounterparty ? m.CounterpartyID == selectedCounterparty.Id : true) &&
+                                                          (showCompleted ? m.Completed : !m.Completed) &&
+                                                           m.EndTime >= firstTime && m.EndTime <= lastTime).ToList();
                 foreach (Mission mission in missions)
                 {
                     DgMissions.Items.Add(new VwMission
@@ -171,7 +176,7 @@ namespace CRM
             List<Employee> employees = db.Employees.ToList();
             foreach (Employee employee in employees)
             {
-                CmbEmployees.Items.Add(employee.Name + " " + employee.Surname);
+                CmbEmployees.Items.Add(employee.Name + ", " + employee.Surname);
             }
         }
 
@@ -382,10 +387,12 @@ namespace CRM
                 return;
             }
             LblMissionAttention.Content = "";
+            string name = CmbEmployees.SelectedValue.ToString().Split(',')[0];
+            string surname = CmbEmployees.SelectedValue.ToString().Split(',')[1].TrimStart();
             Mission mission = new Mission
             {
                 CounterpartyID = selectedCounterparty.Id,
-                EmployeeID = CmbEmployees.SelectedIndex + 1,
+                EmployeeID = db.Employees.First(em => em.Name == name && em.Surname == surname).Id,
                 Text = TxtMissionText.Text,
                 Date = DateTime.Now,
                 EndTime = DpMissionEndDate.SelectedDate.Value,
@@ -393,10 +400,16 @@ namespace CRM
             };
             db.Missions.Add(mission);
             db.SaveChanges();
-            isSelectedCounterparty = false;
             TxtMissionText.Text = "";
             DpMissionEndDate.SelectedDate = DateTime.Now;
             LblMissionAttention.Content = "Tapşırıq yadda saxlanıldı.";
+            SearchMissions();
+        }
+
+        // Yeni işçi qeydiyyatı:
+        private void BtnAddEmployee_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         // Tapşırığın tamamlanmış kimi qeyd olunması:
@@ -464,6 +477,5 @@ namespace CRM
         }
 
         #endregion
-
     }
 }

@@ -44,7 +44,7 @@ namespace CRM
             {
                 CmbPosition.Items.Add(positions.Name);
             }
-            CmbPosition.SelectedIndex = selectedCounterparty.PositionID - 1;
+            CmbPosition.SelectedValue = selectedCounterparty.Position.Name;
         }
 
         // Məlumatların doldurulması:
@@ -58,7 +58,7 @@ namespace CRM
         }
 
         // Kontragent məlumatlarının yenilənməsi:
-        private void Update_Click(object sender, RoutedEventArgs e)
+        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(TxtCounterpartyName.Text))
             {
@@ -109,7 +109,7 @@ namespace CRM
             Counterparty counterparty = db.Counterparties.Find(selectedCounterparty.Id);
             counterparty.Name = TxtCounterpartyName.Text;
             counterparty.ResponsiblePerson = TxtResponsiblePerson.Text;
-            counterparty.PositionID = CmbPosition.SelectedIndex + 1;
+            counterparty.PositionID = db.Positions.First(p => p.Name == CmbPosition.SelectedValue.ToString()).Id;
             counterparty.Phone = TxtPhone.Text;
             counterparty.Mobile = TxtMobile.Text;
             counterparty.Address = TxtAddress.Text;
@@ -119,12 +119,13 @@ namespace CRM
         }
 
         // Kontragentin məlumat bazasından silinməsi:
-        private void Delete_Click(object sender, RoutedEventArgs e)
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             Counterparty counterparty = db.Counterparties.Find(selectedCounterparty.Id);
             db.Counterparties.Remove(counterparty);
             db.SaveChanges();
             TxtBlcAttention.Text = "Kontragent silindi";
+            BtnUpdate.IsEnabled = false;
             crmWindow.Refresh();
         }
         
