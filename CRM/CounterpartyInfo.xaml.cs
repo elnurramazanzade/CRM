@@ -131,6 +131,7 @@ namespace CRM
         
         // Səhf verilən üzrə yoxlanılmış sahələrə fokuslanma:
         #region GotFocus
+
         private void TxtCounterpartyName_GotFocus(object sender, RoutedEventArgs e)
         {
             if (TxtCounterpartyName.BorderBrush == Brushes.Red)
@@ -166,10 +167,12 @@ namespace CRM
                 TxtAddress.BorderThickness = new Thickness(1);
             }
         }
+
         #endregion
 
         // Nömrələrin ədəd olaraq daxil edilməsi:
         #region Write phone numbers
+
         private void TxtPhone_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (TxtPhone.Text.Length == 0)
@@ -201,6 +204,7 @@ namespace CRM
                 mobile = TxtMobile.Text;
             }
         }
+
         #endregion
 
     }

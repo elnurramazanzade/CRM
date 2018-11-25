@@ -181,7 +181,12 @@ namespace CRM
         }
 
         // Dialoq pəncərələri bağlandığında əsas pəncərənin yenilənməsi üçün:
-        public void Refresh() => FillDataGridCounterparties();
+        public void Refresh()
+        {
+            FillDataGridCounterparties();
+            SearchMissions();
+            FillEmployees();
+        }
 
         #endregion
 
@@ -409,7 +414,8 @@ namespace CRM
         // Yeni işçi qeydiyyatı:
         private void BtnAddEmployee_Click(object sender, RoutedEventArgs e)
         {
-
+            AddEmployee addEmployee = new AddEmployee(this);
+            addEmployee.ShowDialog();
         }
 
         // Tapşırığın tamamlanmış kimi qeyd olunması:
